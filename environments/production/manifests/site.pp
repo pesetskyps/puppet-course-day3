@@ -9,8 +9,11 @@ node 'dsccl1.hosting.ad.viacom.com' {
     username => 'LocalSystem',
     pass => '\"\"',
   }
+  include ps_app::myservice_config
   include ps_sql::sqlexpress
   class {'ps_sql::fill_northwind_db':
     instance => 'dsccl1'
   }
+
+  Class['ps_app::myservice'] -> Class['ps_app::myservice_config']
 }

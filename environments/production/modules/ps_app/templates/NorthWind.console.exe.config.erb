@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <startup> 
+        <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5" />
+    </startup>
+
+  <system.serviceModel>
+    <extensions>
+      <behaviorExtensions>
+        <add name="ErrorHandler" type="GH.Northwind.Business.ErrorHandling.ErrorHandlerBehavior, GH.Northwind.Business, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+      </behaviorExtensions>
+    </extensions>
+
+    <services>
+      <service name="GH.Northwind.Business.NorthwindSvr" behaviorConfiguration="BusinessServiceBehavior">
+        <host>
+          <baseAddresses>
+            <add baseAddress="http://<%= @config_values['values']['wcfserver'] %>:8732/Design_Time_Addresses/GH.Northwind.Business/NorthwindSvr/"/>
+          </baseAddresses>
+        </host>
+        <!-- Service Endpoints -->
+        <!-- Unless fully qualified, address is relative to base address supplied above -->
+        <endpoint address="" binding="basicHttpBinding" bindingConfiguration="basicHttpBindin1" contract="GH.Northwind.Business.Interfaces.INorthwindSvr">
+          <!-- 
+              Upon deployment, the following identity element should be removed or replaced to reflect the 
+              identity under which the deployed service runs.  If removed, WCF will infer an appropriate identity 
+              automatically.
+          -->
+          <identity>
+            <dns value="localhost"/>
+          </identity>
+        </endpoint>
+        <!-- Metadata Endpoints -->
+        <!-- The Metadata Exchange endpoint is used by the service to describe itself to clients. -->
+        <!-- This endpoint does not use a secure binding and should be secured or removed before deployment -->
+        <endpoint address="mex" binding="mexHttpBinding" contract="IMetadataExchange"/>
+      </service>
+    </services>
+    <behaviors>
+      <serviceBehaviors>
+        <behavior name="BusinessServiceBehavior">
+          <!-- To avoid disclosing metadata information, 
+          set the value below to false and remove the metadata endpoint above before deployment -->
+          <serviceMetadata httpGetEnabled="True"/>
+          <!-- To receive exception details in faults for debugging purposes, 
+          set the value below to true.  Set to false before deployment 
+          to avoid disclosing exception information -->
+          <serviceDebug includeExceptionDetailInFaults="true"/>
+          <ErrorHandler />
+        </behavior>
+      </serviceBehaviors>
+    </behaviors>
+    <serviceHostingEnvironment multipleSiteBindingsEnabled="true" />
+
+    <bindings>
+      <basicHttpBinding>
+        <binding name="basicHttpBindin1"
+                 maxReceivedMessageSize = "1000000">
+          <security mode="None" />
+          <readerQuotas maxDepth="200"/>
+        </binding>
+      </basicHttpBinding>
+    </bindings>
+  </system.serviceModel>
+  <appSettings>
+    <!--- True for configuration parameter UseWcfDataService means GH.Northwind.Persistence library 
+		accesses the Entity Framework by WCF data service project GH.Northwind.EntityFramework.Host; 
+		otherwise, GH.Northwind.Persistence library accesses GH.Northwind.EntityFramework library directly. 
+    This parameter will take effect only when config parameter N-Tier is true in project GH.Northwind.Web; 
+    otherwise, config parameter UseWcfDataService in project GH.Northwind.Web will take effect -->
+    <add key="UseWcfDataService" value="false"></add>
+
+    <add key="WcfDataServiceUrl" value="http://<%= @config_values['values']['wcfserver'] %>:55555/NorthwindDataService.svc/"></add>
+  </appSettings>
+  <connectionStrings>
+    <add name="NorthwindEntities" connectionString="metadata=res://*/GHNorthwindModels.csdl|res://*/GHNorthwindModels.ssdl|res://*/GHNorthwindModels.msl;provider=System.Data.SqlClient;provider connection string=&quot;<%= @config_values['values']['connectionstring'] %>multipleactiveresultsets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient" />
+  </connectionStrings>
+</configuration>
