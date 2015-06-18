@@ -2,12 +2,11 @@ $powershell = 'C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -Execut
 
 node 'dsccl1.hosting.ad.viacom.com' {
   include common
-  include ps_common::firewall
   include ps_web::iis
   include ps_web::mysite
 
   class {'ps_app::myservice':
-    user => 'LocalSystem',
+    username => 'LocalSystem',
     pass => '\"\"',
   }
   include ps_sql::sqlexpress

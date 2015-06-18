@@ -1,29 +1,40 @@
-class ps_app::myservice($user,$pass){
+class ps_app::myservice($username,$pass){
   # include ps_app::copy_files_old
   include ps_app::copy_files_new
 
-  $service = 'myservice'
+  $servicename = 'myservice'
+  $ps_service_mode = 'auto'
   $local_myserviceservice_path = 'C:\ps\service\NorthWind.console.exe'
-  $ps_local_myserviceservice_path = "New-Item -Type File ${local_myserviceservice_path} -Force"
-  $ps_myservice_check_service = "\"if($(get-service *${service}*)) {exit 0} else {exit 1}\""
-  $ps_myservice_check_service_login = "\"if($(Get-WmiObject win32_service | ?{\$_.name -eq \'${service}\'}).startname -eq \'${user}\') {exit 0}else {exit 1}\""
 
-  exec { "Install_${service}":
-    command => "C:\\Windows\\system32\\cmd.exe /c sc create ${service} binPath= \"${local_myserviceservice_path}\"",
+  #create windows service
+  exec { "Install_${servicename}":
+    command => "C:\\Windows\\system32\\cmd.exe /c sc create ${servicename} binPath= \"${local_myserviceservice_path}\"",
     # require => Class['ps_app::copy_files_old'],
     require => Class['ps_app::copy_files_new'],
-    unless  => "$powershell ${ps_myservice_check_service}",
+    unless  => template('ps_app/powershell/check_service.ps1'),
+    provider => powershell,
   }
 
   #Set user service will run from
-  exec { "Set_user_${service}":
-    command => "C:\\Windows\\system32\\cmd.exe /c sc.exe config ${service} obj= ${user} password= ${pass} & sc.exe config ${service} start= auto",
-    require => Exec["Install_${service}"],
-    unless  => "$powershell ${ps_myservice_check_service_login}",
+  exec { "Set_user_${servicename}":
+    command => "C:\\Windows\\system32\\cmd.exe /c sc.exe config ${servicename} obj= ${username} password= ${pass}",
+    require => Exec["Install_${servicename}"],
+    unless  => template('ps_app/powershell/check_service_login.ps1'),
+    provider => powershell,
+  }
+
+  #Set mode service will run
+  exec { "Set_startmode_${servicename}":
+    command => "C:\\Windows\\system32\\cmd.exe /c sc.exe config ${servicename} start= ${ps_service_mode}",
+    require => Exec["Install_${servicename}"],
+    provider => powershell,
+    unless  => template('ps_app/powershell/check_service_mode.ps1'),
+    logoutput => "on_failure",
   }
   
-  service {$service :
+  #ensure service is always running
+  service {$servicename :
     ensure => running,
-    require => Exec["Set_user_${service}"],
+    require => Exec["Set_user_${servicename}"],
   }
 }

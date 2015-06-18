@@ -7,7 +7,7 @@ class ps_sql::sqlexpress{
 		ascollation    => 'Latin1_General_CI_AS',
 		sqlcollation   => 'SQL_Latin1_General_CP1_CI_AS',
 		admin          => "$hostname\\SQLSVC",
-		sapwd          => 'Epam_2010',
+		sapwd          => 'Zabbix_2015',
 		iniFile        => 'ps_sql/ConfigurationFile.ini'
 	}
 

@@ -36,12 +36,4 @@ class ps_sql::powershell_module(){
     install_options => [ '/quiet'],
     require         => [File[$powerShellTools_local_path], Package['Microsoft SQL Server 2014 Management Objects  (x64)']]
   }
-
-  #adding module to powershell session to execute commands in the same puppet run
-  # $ps_change_modulepath = '"\$CurrentValue = [Environment]::GetEnvironmentVariable(\'PSModulePath\', \'Machine\');[Environment]::SetEnvironmentVariable(\'PSModulePath\', \$CurrentValue + \';C:\Program Files\Microsoft SQL Server\120\Tools\PowerShell\Modules\', \'Machine\')\"'
-  # exec { "$ps_change_modulepath":
-  # 	command => "$powershell $ps_change_modulepath",
-  # 	refreshonly => true,
-  # 	subscribe => Package['Windows PowerShell Extensions for SQL Server 2014 ']
-  # }
 }

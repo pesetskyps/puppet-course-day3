@@ -11,8 +11,8 @@ class ps_web::iis{
     all     => true,
     require => Dism['IIS-WebServer']
   }
-  dism {'IIS-HttpErrors':
-    ensure => present,
-    all    => true
-  }
+  # dism {'IIS-HttpErrors':
+  #   ensure => present,
+  #   all    => true
+  # }
 }
