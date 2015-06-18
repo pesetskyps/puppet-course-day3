@@ -1,4 +1,4 @@
-class ps_app::myservice_config{
+class ps_app::myservice_config($connectionstring){
 	file { "myservice_config_app_config":
 		path               => "c:\\ps\\service\\NorthWind.console.exe.config",
 		ensure 				=> file,

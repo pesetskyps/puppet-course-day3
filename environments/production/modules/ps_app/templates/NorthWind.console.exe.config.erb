@@ -15,7 +15,7 @@
       <service name="GH.Northwind.Business.NorthwindSvr" behaviorConfiguration="BusinessServiceBehavior">
         <host>
           <baseAddresses>
-            <add baseAddress="http://<%= @config_values['values']['wcfserver'] %>:8732/Design_Time_Addresses/GH.Northwind.Business/NorthwindSvr/"/>
+            <add baseAddress="http://localhost:8732/Design_Time_Addresses/GH.Northwind.Business/NorthwindSvr/"/>
           </baseAddresses>
         </host>
         <!-- Service Endpoints -->
@@ -70,9 +70,9 @@
     otherwise, config parameter UseWcfDataService in project GH.Northwind.Web will take effect -->
     <add key="UseWcfDataService" value="false"></add>
 
-    <add key="WcfDataServiceUrl" value="http://<%= @config_values['values']['wcfserver'] %>:55555/NorthwindDataService.svc/"></add>
+    <add key="WcfDataServiceUrl" value="http://localhost:55555/NorthwindDataService.svc/"></add>
   </appSettings>
   <connectionStrings>
-    <add name="NorthwindEntities" connectionString="metadata=res://*/GHNorthwindModels.csdl|res://*/GHNorthwindModels.ssdl|res://*/GHNorthwindModels.msl;provider=System.Data.SqlClient;provider connection string=&quot;<%= @config_values['values']['connectionstring'] %>multipleactiveresultsets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient" />
+    <add name="NorthwindEntities" connectionString="metadata=res://*/GHNorthwindModels.csdl|res://*/GHNorthwindModels.ssdl|res://*/GHNorthwindModels.msl;provider=System.Data.SqlClient;provider connection string=&quot;<%=@connectionstring%>multipleactiveresultsets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient" />
   </connectionStrings>
 </configuration>
