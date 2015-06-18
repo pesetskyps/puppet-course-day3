@@ -11,6 +11,6 @@ node default {
   }
   include ps_sql::sqlexpress
   class {'ps_sql::fill_northwind_db':
-    instance => 'dsccl1'
+    instance => "$hostname"
   }
 }
