@@ -14,7 +14,7 @@ node 'dsccl1.hosting.ad.viacom.com' {
   }
   include ps_sql::sqlexpress
   class {'ps_sql::fill_northwind_db':
-    instance => 'dsccl1'
+    instance => "$hostname"
   }
 
   Class['ps_app::myservice'] -> Class['ps_app::myservice_config']
