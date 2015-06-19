@@ -1,4 +1,4 @@
-class ps_app::myservice($username,$pass){
+class ps_app::myservice($username,$pass,$connectionstring){
   # include ps_app::copy_files_old
   include ps_app::copy_files_new
 
@@ -31,10 +31,19 @@ class ps_app::myservice($username,$pass){
     unless  => template('ps_app/powershell/check_service_mode.ps1'),
     logoutput => "on_failure",
   }
-  
+
+  file { "myservice_config_app_config":
+    path               => "c:\\ps\\service\\NorthWind.console.exe.config",
+    ensure        => file,
+    # content             => regsubst(template($config_values['puppet_template_path']), '\n', "\r\n", 'EMG'),
+    content             => template('ps_app/NorthWind.console.exe.config.erb'),
+    source_permissions  => ignore,
+  }
+
   #ensure service is always running
   service {$servicename :
     ensure => running,
     require => Exec["Set_user_${servicename}"],
+    subscribe => File["myservice_config_app_config"]
   }
 }

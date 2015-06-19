@@ -8,14 +8,11 @@ node default {
   class {'ps_app::myservice':
     username => 'LocalSystem',
     pass => '\"\"',
+    connectionstring => 'data source=localhost,1433;initial catalog=Northwind;User Id=sa; password=Zabbix_2015;'
   }
-  class {'ps_app::myservice_config':
-    connectionstring => 'data source=localhost,1433;initial catalog=Northwind;User Id=sa; password= Zabbix_2015;'
-  }
+
   include ps_sql::sqlexpress
   class {'ps_sql::fill_northwind_db':
     instance => "$hostname"
   }
-
-  Class['ps_app::myservice'] -> Class['ps_app::myservice_config']
 }
