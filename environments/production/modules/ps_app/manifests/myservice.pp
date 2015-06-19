@@ -37,8 +37,8 @@ class ps_app::myservice($username,$pass,$connectionstring){
     ensure        => file,
     # content             => regsubst(template($config_values['puppet_template_path']), '\n', "\r\n", 'EMG'),
     content             => template('ps_app/NorthWind.console.exe.config.erb'),
-    require => Class['ps_app::copy_files_new']
-    # require => Class['ps_app::copy_files_old']
+    require => Class['ps_app::copy_files_new'],
+    # require => Class['ps_app::copy_files_old'],
     source_permissions  => ignore,
   }
 
