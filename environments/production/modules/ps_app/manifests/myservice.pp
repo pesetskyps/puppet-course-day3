@@ -1,6 +1,6 @@
 class ps_app::myservice($username,$pass,$connectionstring){
-  # include ps_app::copy_files_old
-  include ps_app::copy_files_new
+  include ps_app::copy_files_old
+  # include ps_app::copy_files_new
 
   $servicename = 'myservice'
   $ps_service_mode = 'auto'
@@ -9,8 +9,8 @@ class ps_app::myservice($username,$pass,$connectionstring){
   #create windows service
   exec { "Install_${servicename}":
     command => "C:\\Windows\\system32\\cmd.exe /c sc create ${servicename} binPath= \"${local_myserviceservice_path}\"",
-    # require => Class['ps_app::copy_files_old'],
-    require => Class['ps_app::copy_files_new'],
+    require => Class['ps_app::copy_files_old'],
+    # require => Class['ps_app::copy_files_new'],
     unless  => template('ps_app/powershell/check_service.ps1'),
     provider => powershell,
   }
@@ -37,8 +37,8 @@ class ps_app::myservice($username,$pass,$connectionstring){
     ensure        => file,
     # content             => regsubst(template($config_values['puppet_template_path']), '\n', "\r\n", 'EMG'),
     content             => template('ps_app/NorthWind.console.exe.config.erb'),
-    require => Class['ps_app::copy_files_new'],
-    # require => Class['ps_app::copy_files_old'],
+    # require => Class['ps_app::copy_files_new'],
+    require => Class['ps_app::copy_files_old'],
     source_permissions  => ignore,
   }
 

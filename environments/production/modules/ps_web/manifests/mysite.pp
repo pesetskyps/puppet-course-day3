@@ -10,7 +10,7 @@ class ps_web::mysite
     ensure                    => present,
     managedpipelinemode       => 'Integrated',
     managedruntimeversion     => 'v4.0',
-    enable32bitapponwin64     =>  $enable32app,
+    enable32bitapponwin64     =>  'true',
     processmodel_identitytype => 'NetworkService',
     queuelength               => '10000',
   }
@@ -24,7 +24,7 @@ class ps_web::mysite
     logfile_enabled         => true,
     logfile_logformat       => 'W3C',
     logfile_period          => 'Hourly',
-    logfile_directory       => 'C:\ps\logs\iis',
+    logfile_directory       => "C:\\ps\\logs\\iis",
     logfile_logextfileflags => 'Date, Time, ClientIP, UserName, ServerIP, Method, UriStem, UriQuery, HttpStatus, TimeTaken, ServerPort, UserAgent, Referer, Host',
     require                 => Iis_apppool['PuppetIisDemo']
   }
@@ -40,7 +40,7 @@ class ps_web::mysite
   iis_vdir {'mysite/':
     ensure       => present,
     iis_app      => 'mysite/',
-    physicalpath => 'C:\ps\site',
+    physicalpath => "C:\\ps\\site",
     require      => Iis_app['mysite/']
   }
 }
