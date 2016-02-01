@@ -12,5 +12,5 @@ class ps_sql::sqlexpress{
 	}
 
 	include ps_sql::firewall
-	include ps_sql::powershell_module	
+	include ps_sql::powershell_module
 }
