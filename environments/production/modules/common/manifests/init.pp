@@ -13,9 +13,9 @@ class common(){
   acl { 'c:/temp/test':
     permissions                => [
       { identity      => 'Everyone',
-        rights        => ['read'] },
+        rights => ['read'] },
       { identity      => 'Administrators',
-        rights        => ['full'] }
+        rights => ['full'] }
     ],
     purge                      => true,
     inherit_parent_permissions => false,
