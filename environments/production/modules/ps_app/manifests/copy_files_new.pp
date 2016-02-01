@@ -1,6 +1,6 @@
 class ps_app::copy_files_new{
   
-  $directories = ['c:\ps','c:\ps\service','c:\ps\logs']
+  $directories = ["c:\\ps","c:\\ps\\service","c:\\ps\\logs"]
   ps_common::create_directories {'myservice':
     directoryArray => $directories,
     before         => Unzip['wcf.zip']
@@ -13,8 +13,8 @@ class ps_app::copy_files_new{
   }
 
   unzip { 'wcf.zip':
-      source  => 'C:\temp\wcf.zip',
-      creates => 'C:\ps\service\NorthWind.console.exe',
+      source  => "C:\\temp\\wcf.zip",
+      creates => "C:\\ps\\service\\NorthWind.console.exe",
       require => File['c:\\temp\\wcf.zip'],
   }
 }

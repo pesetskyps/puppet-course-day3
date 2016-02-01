@@ -1,10 +1,10 @@
 class ps_app::myservice($username,$pass,$connectionstring){
-  include ps_app::copy_files_old
-  # include ps_app::copy_files_new
+  # include ps_app::copy_files_old
+  include ps_app::copy_files_new
 
   $servicename = 'myservice'
   $ps_service_mode = 'auto'
-  $local_myserviceservice_path = 'C:\ps\service\NorthWind.console.exe'
+  $local_myserviceservice_path = "C:\\ps\\service\\NorthWind.console.exe"
 
   #create windows service
   exec { "Install_${servicename}":
@@ -37,8 +37,8 @@ class ps_app::myservice($username,$pass,$connectionstring){
     ensure             => file,
     # content             => regsubst(template($config_values['puppet_template_path']), '\n', "\r\n", 'EMG'),
     content            => template('ps_app/NorthWind.console.exe.config.erb'),
-    # require => Class['ps_app::copy_files_new'],
-    require            => Class['ps_app::copy_files_old'],
+    require => Class['ps_app::copy_files_new'],
+    # require            => Class['ps_app::copy_files_old'],
     source_permissions => ignore,
   }
 

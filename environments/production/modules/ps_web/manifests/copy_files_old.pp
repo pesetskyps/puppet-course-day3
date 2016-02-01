@@ -1,12 +1,12 @@
 class ps_web::copy_files_old{
-  file { 'C:\ps':
+  file { "C:\\ps":
     ensure            => directory,
     source_permissions => ignore,
   }
-  file { 'C:\ps\site':
+  file { "C:\\ps\\site":
     ensure            => directory,
     source_permissions => ignore,
-    require           => File['C:\ps']
+    require           => File["C:\\ps"]
   }
 
   file { 'c:\\temp\\web.zip':
@@ -15,8 +15,8 @@ class ps_web::copy_files_old{
     source_permissions => ignore,
   }
   unzip { 'web.zip':
-      source  => 'C:\temp\web.zip',
-      creates => 'C:\ps\site\web.config',
-      require => [File['C:\ps\site'],File['c:\\temp\\web.zip']]
+      source  => "C:\\temp\\web.zip",
+      creates => "C:\\ps\\site\\web.config",
+      require => [File["C:\\ps\\site"],File['c:\\temp\\web.zip']]
   }
 }

@@ -1,13 +1,13 @@
 class ps_app::copy_files_old{
   #set up servicedirectory
-  file { 'C:\ps':
+  file { "C:\\ps":
    ensure            => directory,
    source_permissions => ignore,
   }
-  file { 'C:\ps\service':
+  file { "C:\\ps\\service":
    ensure            => directory,
    source_permissions => ignore,
-   require           => File['C:\ps']
+   require           => File["C:\\ps"]
   }
 
   file { 'c:\\temp\\wcf.zip':
@@ -17,8 +17,8 @@ class ps_app::copy_files_old{
   }
 
   unzip { 'wcf.zip':
-      source  => 'C:\temp\wcf.zip',
+      source  => "C:\\temp\\wcf.zip",
       creates => $local_myserviceservice_path,
-      require => [File['c:\\temp\\wcf.zip'],File['C:\ps\service']],
+      require => [File['c:\\temp\\wcf.zip'],File["C:\\ps\\service"]],
   }
 }
